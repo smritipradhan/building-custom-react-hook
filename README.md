@@ -96,7 +96,7 @@ ForwardCounter.js
 Now the counter works for both forward and backward counter. The backward counter using the custom hook is still pending . 
 
 ### Configuring Custom for both Forward and Backward Counter
-
+folder - 03-configuring-custom-hook
 We will pass an arguement to the useCounter to configure/resusable it based on Forward and Backward Component.
 
 ```
@@ -119,5 +119,10 @@ const useCounter = (forward = true) => {
 };
 
 export default useCounter;
+
+```
+BackwardCounter.js
+``` 
+useCounter(false);
 
 ```
