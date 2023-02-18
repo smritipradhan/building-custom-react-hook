@@ -8,7 +8,8 @@ In this Project we will understand how to build custom hooks
 
 1. What and Why?
 2. Building a Custom Hook
-3. Custom Hook Rules and Practices (Examples)
+3. Custom Hook Rules and Practices 
+4. Realistic Examples
 
 --Custom hooks are in the end , just regular functions just as the built in hooks but are hooks which contain stateful logic . Outsource stateful logic into reusable functions.Unlike regular functions, custom hooks can use other React hooks, including other custom hooks.
 
@@ -86,9 +87,12 @@ So, now if we call a custom hook in one of our component it registers a state or
 We will return the counter state here and in the forward counter component we can use it there.
 
 ForwardCounter.js
+
 ```
  const counter = useCounter();
 
 ```
 
 Now the counter works for both forward and backward counter. The backward counter using the custom hook is still pending . 
+
+### Configuring Custom for both Forward and Backward Counter
