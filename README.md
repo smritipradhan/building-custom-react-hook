@@ -96,3 +96,28 @@ ForwardCounter.js
 Now the counter works for both forward and backward counter. The backward counter using the custom hook is still pending . 
 
 ### Configuring Custom for both Forward and Backward Counter
+
+We will pass an arguement to the useCounter to configure/resusable it based on Forward and Backward Component.
+
+```
+import React from "react";
+import { useState, useEffect } from "react";
+
+const useCounter = (forward = true) => {
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (forward) setCounter((prevCounter) => prevCounter + 1);
+      else setCounter((prevCounter) => prevCounter - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return counter;
+};
+
+export default useCounter;
+
+```
