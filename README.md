@@ -157,6 +157,7 @@ We receive requestConfig and applyData function as parameters and configure the 
 
 ### Using Custom Hook 
 
+folder - 05-building-a-custom-http-hook
 ```
 const response = await fetch(requestConfig.url, {
         method: requestConfig.method ? requestConfig.method:'GET',
@@ -165,7 +166,7 @@ const response = await fetch(requestConfig.url, {
       });
 ```      
 
-Making the hook more flexible so that the app does not send any dummy data to make it work.
+Making the hook more flexible so that the component does not send any dummy data to make it work.
 
 App.js
 
@@ -189,6 +190,32 @@ App.js
       },
       transformData
     );
-  }, []);
+  }, []); //Need to add dependency later 
 
 ```
+
+destructuring  { isLoading, error, sendRequest: fetchTasks } = useHttp();
+and call fetchTasks.
+Note - Do not forget to change the url based on your firebase account
+
+### Adjusting the Custom Hook Logic
+
+In the useEffect we need to add the dependency.
+
+ useEffect(() => {
+    fetchTasks(
+      {
+        url: "https://react-post-call-default-rtdb.firebaseio.com/tasks.json",
+      },
+      transformData
+    );
+  }, [fetchTasks]);
+
+  In here the component is attached to the custom hook. When the function will be called and when the states are set the component where we use the custom hook will be rerendered because when we use a custom hook,which uses the state and we use the hook in that component, that component implicitely use that state setup in the custom hook. 
+
+  When the component is re-evaluated  and that custom hook is called again. We are indeed recreating the send request function and therefore useEffect will run again.
+
+  Behind the scenes functions are objects in Javascript . And everytime a function is recreated even it contains the same logic,its a brand new object in the memory and therefore useEffect will treat it as a new value,even if it is technically the same function and it would be re executed .
+
+  So, to avoid this , we could wrap sendRequest inside useCallback hook.
+
