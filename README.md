@@ -9,7 +9,7 @@ In this Project we will understand how to build custom hooks
 1. What and Why?
 2. Building a Custom Hook
 3. Custom Hook Rules and Practices 
-4. Realistic Examples
+4. Realistic Examples (Building a Custom HTTP hook).
 
 --Custom hooks are in the end , just regular functions just as the built in hooks but are hooks which contain stateful logic . Outsource stateful logic into reusable functions.Unlike regular functions, custom hooks can use other React hooks, including other custom hooks.
 
@@ -126,3 +126,16 @@ BackwardCounter.js
 useCounter(false);
 
 ```
+
+### Onwards to a more Realistic Example
+Folder - 04-onwards-to-a-more-realistic-example
+
+In this application we are going to send http requests. The application is like a todo in which we will add a task and then fetch the task by sending http request to the backend.Here we have the GET and POST method to fetch the data . We can use a Custom hook for both sending and getting the data as they share the same logic with some configuration . 
+
+Steps to run this project -  
+1. npm i
+2. Create a Firebase account and create a Realtime Database 
+3. Replace the url here with the url provided to you.
+ <your url>/tasks.json 
+
+ ### Building a Custom HTTP Hook 
