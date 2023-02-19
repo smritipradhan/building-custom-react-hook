@@ -139,3 +139,56 @@ Steps to run this project -
  <your url>/tasks.json 
 
  ### Building a Custom HTTP Hook 
+
+Created a hook useHttp inside the hooks folder which is inside src . This hook should not be just dealing with fetching data and fetching tasks specifically because the hook would not be very reusable , it would be limited to one operation. Instead this hook should be able to send any kind of requests to any kind of URL and do any kind of data transformation but it should manage the same state loading and error and execute the same steps in the same order.
+
+We need some parameters to configure this hook
+
+
+use-http.js 
+```
+const response = await fetch(requestConfig.url, {
+        method: requestConfig.method,
+        headers: requestConfig.headers,
+        body: JSON.stringify(requestConfig.body),
+      });
+```
+We receive requestConfig and applyData function as parameters and configure the custom hook accordingly.
+
+### Using Custom Hook 
+
+```
+const response = await fetch(requestConfig.url, {
+        method: requestConfig.method ? requestConfig.method:'GET',
+        headers: requestConfig.headers ? requestConfig.headers:{},
+        body: requestConfig.body ? JSON.stringify(requestConfig.body):null,
+      });
+```      
+
+Making the hook more flexible so that the app does not send any dummy data to make it work.
+
+App.js
+
+```
+ const transformData = (taskObj) => {
+    const loadedTasks = [];
+
+    for (const taskKey in taskObj) {
+      loadedTasks.push({ id: taskKey, text: taskObj[taskKey].text });
+    }
+    setTasks(loadedTasks);
+  };
+
+  const { isLoading, error, sendRequest: fetchTasks } = useHttp();
+  //useHttp expects two things - a requestConfig and applyData function
+
+  useEffect(() => {
+    fetchTasks(
+      {
+        url: "https://react-post-call-default-rtdb.firebaseio.com/tasks.json",
+      },
+      transformData
+    );
+  }, []);
+
+```
