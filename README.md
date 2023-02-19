@@ -221,5 +221,49 @@ In the useEffect we need to add the dependency.
 
   So, to avoid this , we could wrap sendRequest inside useCallback hook.
 
+```
+  const sendRequest = useCallback(async (requestConfig, applyData) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(requestConfig.url, {
+        method: requestConfig.method ? requestConfig.method:'GET',
+        headers: requestConfig.headers ? requestConfig.headers:{},
+        body: requestConfig.body ? JSON.stringify(requestConfig.body):null,
+      });
 
+      if (!response.ok) {
+        throw new Error("Request failed!");
+      }
 
+      const data = await response.json();
+      applyData(data);
+     
+    } catch (err) {
+      console.log(err.message);
+      setError(err.message || "Something went wrong!");
+    }
+    setIsLoading(false);
+  },[])
+  ```
+
+  ```
+   useEffect(() => {
+
+    const transformData = (taskObj) => {
+      const loadedTasks = [];
+  
+      for (const taskKey in taskObj) {
+        loadedTasks.push({ id: taskKey, text: taskObj[taskKey].text });
+      }
+      setTasks(loadedTasks);
+    };
+
+    fetchTasks(
+      {
+        url: "https://react-post-call-default-rtdb.firebaseio.com/tasks.json",
+      },
+      transformData
+    );
+  }, [fetchTasks]);
+```
